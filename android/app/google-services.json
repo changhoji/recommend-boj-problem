@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "48759075209",
+    "firebase_url": "https://what-to-solve-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "what-to-solve",
+    "storage_bucket": "what-to-solve.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:48759075209:android:beab181a152ddea327b158",
+        "android_client_info": {
+          "package_name": "com.example.recommend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "48759075209-ntnbvmom3flun9m40c1nk2al0p3eva2m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7BAplIVt3Lk7MyJma6vU7QN8jr3AZGP0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "48759075209-kbb8seqio321ftho87t5cmjbqdh7324c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "48759075209-8jrh49927pgokhki19jto05uqptq9ckd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.recommend"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
