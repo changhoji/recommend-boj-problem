@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:whattosolve/env/env.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -44,49 +45,43 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBBAe-Slcdyg9dZ87bytlGfkwExeC0pXEg',
-    appId: '1:48759075209:web:bcd29a66df1acc5f27b158',
-    messagingSenderId: '48759075209',
+    apiKey: Env.firebaseWebApikey,
+    appId: Env.firebaseWebAppid,
+    messagingSenderId: Env.firebaseMessagingSenderid,
     projectId: 'what-to-solve',
     authDomain: 'what-to-solve.firebaseapp.com',
-    databaseURL:
-        'https://what-to-solve-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL: Env.firebaseDatabaseUrl,
     storageBucket: 'what-to-solve.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyA7BAplIVt3Lk7MyJma6vU7QN8jr3AZGP0',
-    appId: '1:48759075209:android:beab181a152ddea327b158',
-    messagingSenderId: '48759075209',
+    apiKey: Env.firebaseAndroidApikey,
+    appId: Env.firebaseAndroidAppid,
+    messagingSenderId: Env.firebaseMessagingSenderid,
     projectId: 'what-to-solve',
-    databaseURL:
-        'https://what-to-solve-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL: Env.firebaseDatabaseUrl,
     storageBucket: 'what-to-solve.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBBn4InKkDXAqmNVZrhb6eBf7yCskMMYU4',
-    appId: '1:48759075209:ios:81ce012b5471d36927b158',
-    messagingSenderId: '48759075209',
+    apiKey: Env.firebaseIosApikey,
+    appId: Env.firebaseIosAppid,
+    messagingSenderId: Env.firebaseMessagingSenderid,
     projectId: 'what-to-solve',
-    databaseURL:
-        'https://what-to-solve-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL: Env.firebaseDatabaseUrl,
     storageBucket: 'what-to-solve.appspot.com',
-    iosClientId:
-        '48759075209-8jrh49927pgokhki19jto05uqptq9ckd.apps.googleusercontent.com',
+    iosClientId: Env.firebaseIosClientid,
     iosBundleId: 'com.example.recommend',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBBn4InKkDXAqmNVZrhb6eBf7yCskMMYU4',
-    appId: '1:48759075209:ios:7e3cf48e105b62a027b158',
-    messagingSenderId: '48759075209',
+    apiKey: Env.firebaseMacApikey,
+    appId: Env.firebaseMacAppid,
+    messagingSenderId: Env.firebaseMessagingSenderid,
     projectId: 'what-to-solve',
-    databaseURL:
-        'https://what-to-solve-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL: Env.firebaseDatabaseUrl,
     storageBucket: 'what-to-solve.appspot.com',
-    iosClientId:
-        '48759075209-iap2dc3op1evr35f85o4310n95q5gvbq.apps.googleusercontent.com',
+    iosClientId: Env.firebaseMacClientid,
     iosBundleId: 'com.example.recommend.RunnerTests',
   );
 }
