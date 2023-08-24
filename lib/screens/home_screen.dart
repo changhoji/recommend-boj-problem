@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:whattosolve/models/solvedac_problem.dart';
+import 'package:whattosolve/providers/level.dart';
 import 'package:whattosolve/services/solvedac_service.dart';
+import 'package:whattosolve/widgets/filter/level_select_widget.dart';
 import 'package:whattosolve/widgets/google_login.dart';
 
 const List<Text> tiers = [
@@ -69,43 +72,45 @@ class _HomeScreenState extends State<HomeScreen> {
                 border: OutlineInputBorder(),
               ),
             ),
-            Row(
-              children: [
-                DropdownButton(
-                  value: tier,
-                  onChanged: (value) {
-                    setState(() {
-                      tier = value!;
-                    });
-                  },
-                  items: List.generate(tiers.length, (i) {
-                    return DropdownMenuItem(
-                      value: tiers[i],
-                      child: tiers[i],
-                    );
-                  }),
-                ),
-                DropdownButton(
-                  value: level,
-                  items: levels.map((level) {
-                    return DropdownMenuItem(
-                      value: level,
-                      child: Text(level, style: tier.style),
-                    );
-                  }).toList(),
-                  onChanged: ((value) {
-                    setState(() {
-                      level = value!;
-                    });
-                  }),
-                ),
-              ],
-            ),
+            const LevelSelect(),
+            // Row(
+            //   children: [
+            //     DropdownButton(
+            //       value: tier,
+            //       onChanged: (value) {
+            //         setState(() {
+            //           tier = value!;
+            //         });
+            //       },
+            //       items: List.generate(tiers.length, (i) {
+            //         return DropdownMenuItem(
+            //           value: tiers[i],
+            //           child: tiers[i],
+            //         );
+            //       }),
+            //     ),
+            //     DropdownButton(
+            //       value: level,
+            //       items: levels.map((level) {
+            //         return DropdownMenuItem(
+            //           value: level,
+            //           child: Text(level, style: tier.style),
+            //         );
+            //       }).toList(),
+            //       onChanged: ((value) {
+            //         setState(() {
+            //           level = value!;
+            //         });
+            //       }),
+            //     ),
+            //   ],
+            // ),
             IconButton(
               onPressed: () {
                 setState(() {
                   suggestion = SolvedacService.getProblemWithFilter(
-                      "*${getLevel(tier.data!, int.parse(level))}");
+                      "*${context.read<Level>().level}");
+                  // "*${getLevel(tier.data!, int.parse(level))}");
                 });
               },
               icon: const Icon(Icons.search),

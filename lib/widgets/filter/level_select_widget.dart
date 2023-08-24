@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:whattosolve/providers/level.dart';
 
 const List<Text> tiers = [
   Text('Ruby', style: TextStyle(color: Colors.red)),
@@ -32,6 +34,8 @@ class _LevelSelectState extends State<LevelSelect> {
             setState(() {
               tier = value!;
             });
+            context.read<Level>().set(getLevel(tier.data!, int.parse(level)));
+            print("level = ${context.read<Level>().level}");
           },
           items: List.generate(tiers.length, (i) {
             return DropdownMenuItem(
@@ -52,9 +56,15 @@ class _LevelSelectState extends State<LevelSelect> {
             setState(() {
               level = value!;
             });
+            context.read<Level>().set(getLevel(tier.data!, int.parse(level)));
+            print("level = ${context.read<Level>().level}");
           }),
         ),
       ],
     );
   }
+}
+
+String getLevel(String tier, int level) {
+  return "${tier[0].toLowerCase()}$level";
 }
