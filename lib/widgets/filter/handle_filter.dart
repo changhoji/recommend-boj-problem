@@ -29,31 +29,35 @@ class _HandleFilterState extends State<HandleFilter> {
               color: Colors.grey,
             ),
           ),
-          TextField(
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  width: 2.0,
-                  color: validHandle ? Colors.green : Colors.red,
-                ),
-              ),
-              border: const OutlineInputBorder(),
-            ),
-            onChanged: (value) {
-              context.read<Filter>().handle = value;
-              handle = value;
-            },
-            onTapOutside: (e) {
-              if (handle.isNotEmpty) {
-                SolvedacService.isExistingHandle(handle).then(
-                  (exist) {
-                    setState(() {
-                      validHandle = exist;
-                    });
-                  },
-                );
+          Focus(
+            onFocusChange: (value) {
+              if (!value && handle.isNotEmpty) {
+                SolvedacService.isExistingHandle(handle).then((exist) {
+                  setState(() {
+                    validHandle = exist;
+                  });
+                });
+              } else if (handle.isEmpty) {
+                setState(() {
+                  validHandle = true;
+                });
               }
             },
+            child: TextField(
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    width: 2.0,
+                    color: validHandle ? Colors.green : Colors.red,
+                  ),
+                ),
+                border: const OutlineInputBorder(),
+              ),
+              onChanged: (value) {
+                context.read<Filter>().handle = value;
+                handle = value;
+              },
+            ),
           ),
         ],
       ),
