@@ -65,4 +65,14 @@ class SolvedacService {
     int index = Random().nextInt(problems['items'].length);
     return SolvedacProblem.fromJson(problems['items'][index]);
   }
+
+  static Future<bool> isExistingHandle(String handle) async {
+    var url = Uri.parse("$baseUrl/user/show?handle=$handle");
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
 }
