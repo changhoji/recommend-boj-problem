@@ -27,22 +27,33 @@ class SolvedacService {
 
   static Future<SolvedacProblem> getProblemWithFilter(Filter filter) async {
     if (!filter.searched) {
-      print("re-search");
       String levelFilter = "*${filter.level}";
       String handleFilter =
           filter.handle != "" ? " $and !@${filter.handle}" : "";
-      String tagFilter = "";
-      for (var tag in filter.tags) {
-        tagFilter = "$tagFilter$hash${tag.key}$or";
+
+      String containTagFilter = "";
+      for (var tag in filter.containTags) {
+        containTagFilter = "$containTagFilter$hash${tag.key}$or";
       }
-      if (tagFilter != "") {
-        tagFilter = tagFilter.substring(0, tagFilter.length - 3);
-        tagFilter = " $and ($tagFilter)";
+      if (containTagFilter != "") {
+        containTagFilter =
+            containTagFilter.substring(0, containTagFilter.length - 3);
+        containTagFilter = " $and ($containTagFilter)";
       }
       String translatedFilter = filter.translated ? " $and %ko" : "";
 
-      String query = "$levelFilter$handleFilter$tagFilter$translatedFilter";
-      print("query: $query");
+      String exceptTagFilter = "";
+      for (var tag in filter.exceptTags) {
+        exceptTagFilter = "$exceptTagFilter!$hash${tag.key}$and";
+      }
+      if (exceptTagFilter != "") {
+        exceptTagFilter =
+            exceptTagFilter.substring(0, exceptTagFilter.length - 3);
+        exceptTagFilter = " $and ($exceptTagFilter)";
+      }
+
+      String query =
+          "$levelFilter$handleFilter$containTagFilter$exceptTagFilter$translatedFilter";
 
       final url = Uri.parse('$baseUrl/search/problem?query=$query');
       final response = await http.get(url);

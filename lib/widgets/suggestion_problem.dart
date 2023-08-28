@@ -15,8 +15,9 @@ class SuggestionProblem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:
-          const BoxDecoration(color: Color.fromARGB(255, 174, 222, 250)),
+      decoration: BoxDecoration(
+        border: Border.all(),
+      ),
       child: (context.watch<Filter>().suggestion != null)
           ? const ProblemInfo()
           : null,
@@ -46,12 +47,15 @@ class ProblemInfo extends StatelessWidget {
               launchUrlString(
                   "https://acmicpc.net/problem/${suggestion.problemId}");
             }),
-        Row(
-          children: suggestion.tags.map((tag) {
-            return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TagSection(tag: tag));
-          }).toList(),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: suggestion.tags.map((tag) {
+              return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TagSection(tag: tag));
+            }).toList(),
+          ),
         ),
       ],
     );
@@ -73,9 +77,15 @@ class TagSection extends StatelessWidget {
           Text(tag.displayName),
           IconButton(
             onPressed: () {
-              context.read<Filter>().addTag(tag);
+              context.read<Filter>().addContainTag(tag);
             },
             icon: const Icon(Icons.add_circle_outline),
+          ),
+          IconButton(
+            onPressed: () {
+              context.read<Filter>().addExceptTag(tag);
+            },
+            icon: const Icon(Icons.remove_circle_outline),
           ),
         ],
       ),
