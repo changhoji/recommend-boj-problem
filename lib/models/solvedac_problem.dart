@@ -1,10 +1,36 @@
 class SolvedacProblem {
-  final int problemId;
-  final String titleKo;
-  final int level;
+  late int problemId;
+  late String titleKo;
+  late int level;
+  List<Tag> tags = <Tag>[];
 
-  SolvedacProblem.fromJson(Map<String, dynamic> data)
-      : problemId = data['problemId'],
-        titleKo = data['titleKo'],
-        level = data['level'];
+  SolvedacProblem.fromJson(Map<String, dynamic> json) {
+    problemId = json['problemId'];
+    titleKo = json['titleKo'];
+    level = json['level'];
+
+    json['tags'].forEach((tag) {
+      tags.add(Tag.fromJson(tag));
+    });
+  }
+}
+
+class Tag {
+  late String key;
+  late int bojTagId;
+  late String displayName;
+
+  Tag.fromJson(Map<String, dynamic> json) {
+    key = json['key'];
+    bojTagId = json['bojTagId'];
+    displayName = json['displayNames'][0]['name'];
+  }
+
+  @override
+  int get hashCode => bojTagId;
+
+  @override
+  bool operator ==(covariant Tag other) {
+    return bojTagId == other.bojTagId;
+  }
 }
