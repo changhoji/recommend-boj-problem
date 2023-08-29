@@ -49,41 +49,44 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(width: 100),
         ],
       ),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            constraints: const BoxConstraints(
-              maxWidth: 600,
+      body: SingleChildScrollView(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              constraints: const BoxConstraints(
+                maxWidth: 600,
+              ),
+              // filter container
+              padding: const EdgeInsets.all(20),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              child: Column(
+                children: [
+                  const HandleFilter(),
+                  const LevelFilter(),
+                  const SizedBox(height: 20),
+                  const TagFilter(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('한국어 문제만 찾기'),
+                      Checkbox(
+                        value: context.watch<Filter>().translated,
+                        onChanged: (value) {
+                          context.read<Filter>().reverseTranslated();
+                        },
+                      ),
+                    ],
+                  ),
+                  const SearchButton(),
+                  const SuggestionProblem(),
+                ],
+              ),
             ),
-            // filter container
-            padding: const EdgeInsets.all(20),
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            child: Column(
-              children: [
-                const HandleFilter(),
-                const LevelFilter(),
-                const TagFilter(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('한국어 문제만 찾기'),
-                    Checkbox(
-                      value: context.watch<Filter>().translated,
-                      onChanged: (value) {
-                        context.read<Filter>().reverseTranslated();
-                      },
-                    ),
-                  ],
-                ),
-                const SearchButton(),
-                const SuggestionProblem(),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

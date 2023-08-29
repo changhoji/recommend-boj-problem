@@ -25,9 +25,17 @@ class SolvedacService {
 
   static dynamic problems;
 
+  static Text levelToText(int level) {
+    return Text(
+      "${tiers[5 - (level - 1) ~/ 5].data}${5 - (level - 1) % 5}",
+      style: tiers[5 - (level - 1) ~/ 5].style,
+    );
+  }
+
   static Future<SolvedacProblem> getProblemWithFilter(Filter filter) async {
     if (!filter.searched) {
-      String levelFilter = "*${filter.level}";
+      String levelFilter =
+          "*${filter.level.start.round()}..${filter.level.end.round()}";
       String handleFilter =
           filter.handle != "" ? " $and !@${filter.handle}" : "";
 

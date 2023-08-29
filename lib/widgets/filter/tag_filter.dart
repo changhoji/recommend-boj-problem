@@ -10,7 +10,6 @@ class TagFilter extends StatelessWidget {
     return const Column(
       children: [
         ContainTags(),
-        SizedBox(height: 50),
         ExceptTags(),
       ],
     );
@@ -22,28 +21,42 @@ class ContainTags extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(),
-      ),
-      child: Column(
-        children: [
-          const Text('containFilter'),
-          ...context.watch<Filter>().containTags.map((tag) {
-            return Row(
-              children: [
-                Text(tag.displayName),
-                IconButton(
-                  onPressed: () {
-                    context.read<Filter>().removeContainTag(tag);
-                  },
-                  icon: const Icon(Icons.remove_circle_outline),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          '포함할 태그',
+          style: TextStyle(
+            color: Colors.grey,
+          ),
+        ),
+        Container(
+          width: 600,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade200,
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
+          ),
+          child: Column(
+            children: context.watch<Filter>().containTags.map((tag) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  children: [
+                    Text(tag.displayName),
+                    IconButton(
+                      onPressed: () {
+                        context.read<Filter>().removeContainTag(tag);
+                      },
+                      icon: const Icon(Icons.remove_circle_outline),
+                      iconSize: 20,
+                    ),
+                  ],
                 ),
-              ],
-            );
-          }).toList(),
-        ],
-      ),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -53,28 +66,38 @@ class ExceptTags extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(),
-      ),
-      child: Column(
-        children: [
-          const Text('exceptFilter'),
-          ...context.watch<Filter>().exceptTags.map((tag) {
-            return Row(
-              children: [
-                Text(tag.displayName),
-                IconButton(
-                  onPressed: () {
-                    context.read<Filter>().removeExceptTag(tag);
-                  },
-                  icon: const Icon(Icons.remove_circle_outline),
-                ),
-              ],
-            );
-          }).toList(),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          '제외할 태그',
+          style: TextStyle(
+            color: Colors.grey,
+          ),
+        ),
+        Container(
+          width: 600,
+          decoration: BoxDecoration(
+            border: Border.all(),
+          ),
+          child: Column(
+            children: context.watch<Filter>().exceptTags.map((tag) {
+              return Row(
+                children: [
+                  Text(tag.displayName),
+                  IconButton(
+                    onPressed: () {
+                      context.read<Filter>().removeExceptTag(tag);
+                    },
+                    icon: const Icon(Icons.remove_circle_outline),
+                    iconSize: 20,
+                  ),
+                ],
+              );
+            }).toList(),
+          ),
+        ),
+      ],
     );
   }
 }

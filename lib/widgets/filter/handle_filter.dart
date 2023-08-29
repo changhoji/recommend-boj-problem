@@ -18,49 +18,46 @@ class _HandleFilterState extends State<HandleFilter> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(minWidth: 200),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            '백준 핸들',
-            style: TextStyle(
-              color: Colors.grey,
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          '백준 핸들',
+          style: TextStyle(
+            color: Colors.grey,
           ),
-          Focus(
-            onFocusChange: (value) {
-              if (!value && handle.isNotEmpty) {
-                SolvedacService.isExistingHandle(handle).then((exist) {
-                  setState(() {
-                    validHandle = exist;
-                  });
-                });
-              } else if (handle.isEmpty) {
+        ),
+        Focus(
+          onFocusChange: (value) {
+            if (!value && handle.isNotEmpty) {
+              SolvedacService.isExistingHandle(handle).then((exist) {
                 setState(() {
-                  validHandle = true;
+                  validHandle = exist;
                 });
-              }
-            },
-            child: TextField(
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 2.0,
-                    color: validHandle ? Colors.green : Colors.red,
-                  ),
+              });
+            } else if (handle.isEmpty) {
+              setState(() {
+                validHandle = true;
+              });
+            }
+          },
+          child: TextField(
+            decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  width: 2.0,
+                  color: validHandle ? Colors.green : Colors.red,
                 ),
-                border: const OutlineInputBorder(),
               ),
-              onChanged: (value) {
-                context.read<Filter>().handle = value;
-                handle = value;
-              },
+              border: const OutlineInputBorder(),
             ),
+            onChanged: (value) {
+              context.read<Filter>().handle = value;
+              handle = value;
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
