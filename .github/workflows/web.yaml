@@ -3,14 +3,14 @@ name: Gh-Pages
 on:
   push:
     branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
-    environment: Deploy
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v1
-      - run: flutter pub run build_runner build
       - uses: bluefireteam/flutter-gh-pages@v7
