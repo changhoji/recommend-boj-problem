@@ -64,7 +64,8 @@ class SolvedacService {
           "$levelFilter$handleFilter$containTagFilter$exceptTagFilter$translatedFilter";
 
       final url = Uri.parse('$baseUrl/search/problem?query=$query');
-      final response = await http.get(url);
+      final response =
+          await http.get(url, headers: {"Access-Control-Allow-Origin": "*"});
 
       // if (response.statusCode == 200) {
       problems = jsonDecode(response.body);
@@ -76,7 +77,8 @@ class SolvedacService {
 
   static Future<bool> isExistingHandle(String handle) async {
     var url = Uri.parse("$baseUrl/user/show?handle=$handle");
-    final response = await http.get(url);
+    final response =
+        await http.get(url, headers: {"Access-Control-Allow-Origin": "*"});
 
     if (response.statusCode == 200) {
       return true;
