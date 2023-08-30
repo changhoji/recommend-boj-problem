@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:whattosolve/models/solvedac_problem.dart';
 import 'package:whattosolve/providers/filter.dart';
 
 class SolvedacService {
+  static final dio = Dio();
   static const String baseUrl = "https://solved.ac/api/v3";
 
   static const String hash = "%23";
@@ -63,9 +65,10 @@ class SolvedacService {
       String query =
           "$levelFilter$handleFilter$containTagFilter$exceptTagFilter$translatedFilter";
 
-      final url = Uri.parse('$baseUrl/search/problem?query=$query');
-      final response =
-          await http.get(url, headers: {"Access-Control-Allow-Origin": "*"});
+      final url = Uri.parse(
+          'https://api-py.vercel.app/https:~~solved.ac~api~v3~search~problem\$query=$query');
+      // final response = await http.get(url);
+      final response = await http.get(url);
 
       // if (response.statusCode == 200) {
       problems = jsonDecode(response.body);
@@ -76,9 +79,9 @@ class SolvedacService {
   }
 
   static Future<bool> isExistingHandle(String handle) async {
-    var url = Uri.parse("$baseUrl/user/show?handle=$handle");
-    final response =
-        await http.get(url, headers: {"Access-Control-Allow-Origin": "*"});
+    var url = Uri.parse(
+        "https://api-py.vercel.app/https:~~solved.ac~api~v3~user~show\$handle=$handle");
+    final response = await http.get(url);
 
     if (response.statusCode == 200) {
       return true;
