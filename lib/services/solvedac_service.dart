@@ -1,14 +1,12 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:whattosolve/models/solvedac_problem.dart';
 import 'package:whattosolve/providers/filter.dart';
 
 class SolvedacService {
-  static final dio = Dio();
   static const String baseUrl = "https://solved.ac/api/v3";
 
   static const String hash = "%23";
