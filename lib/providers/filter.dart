@@ -7,6 +7,8 @@ class Filter with ChangeNotifier {
   SolvedacProblem? _suggestion;
   bool _translated = false;
   bool _searched = false;
+  bool _handleSearched = true;
+  bool _handleExists = true;
   final List<Tag> _containTags = <Tag>[];
   final List<Tag> _exceptTags = <Tag>[];
 
@@ -15,6 +17,8 @@ class Filter with ChangeNotifier {
   SolvedacProblem? get suggestion => _suggestion;
   bool get translated => _translated;
   bool get searched => _searched;
+  bool get handleSearched => _handleSearched;
+  bool get handleExists => _handleExists;
   List<Tag> get containTags => _containTags;
   List<Tag> get exceptTags => _exceptTags;
 
@@ -43,6 +47,16 @@ class Filter with ChangeNotifier {
 
   set searched(bool searched) {
     _searched = searched;
+    notifyListeners();
+  }
+
+  set handleSearched(bool handleSearched) {
+    _handleSearched = handleSearched;
+    notifyListeners();
+  }
+
+  set handleExists(bool handleExists) {
+    _handleExists = handleExists;
     notifyListeners();
   }
 

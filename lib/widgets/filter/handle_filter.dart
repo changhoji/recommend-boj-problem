@@ -14,7 +14,6 @@ class HandleFilter extends StatefulWidget {
 
 class _HandleFilterState extends State<HandleFilter> {
   String handle = "";
-  bool validHandle = true;
 
   @override
   Widget build(BuildContext context) {
@@ -30,31 +29,49 @@ class _HandleFilterState extends State<HandleFilter> {
         Focus(
           onFocusChange: (value) {
             if (!value && handle.isNotEmpty) {
+              context.read<Filter>().handleSearched = false;
               SolvedacService.isExistingHandle(handle).then((exist) {
-                setState(() {
-                  validHandle = exist;
-                });
+                context.read<Filter>().handleSearched = true;
+                context.read<Filter>().handleExists = exist;
               });
+            } else if (value) {
+              context.read<Filter>().handleExists = false;
             } else if (handle.isEmpty) {
-              setState(() {
-                validHandle = true;
-              });
+              context.read<Filter>().handleExists = true;
             }
           },
-          child: TextField(
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  width: 2.0,
-                  color: validHandle ? Colors.green : Colors.red,
+          child: Stack(
+            alignment: AlignmentDirectional.centerEnd,
+            children: [
+              TextField(
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0,
+                      color: context.watch<Filter>().handleSearched
+                          ? (context.watch<Filter>().handleExists
+                              ? Colors.green
+                              : Colors.red)
+                          : Colors.grey,
+                    ),
+                  ),
+                  border: const OutlineInputBorder(),
                 ),
+                onChanged: (value) {
+                  context.read<Filter>().handle = value;
+                  handle = value;
+                },
               ),
-              border: const OutlineInputBorder(),
-            ),
-            onChanged: (value) {
-              context.read<Filter>().handle = value;
-              handle = value;
-            },
+              !context.watch<Filter>().handleSearched
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.arrow_circle_down_sharp,
+                        color: Colors.grey.shade700,
+                      ),
+                    )
+                  : const SizedBox(),
+            ],
           ),
         ),
       ],

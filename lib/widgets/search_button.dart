@@ -9,14 +9,27 @@ class SearchButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
+      mouseCursor: (context.watch<Filter>().handleSearched &&
+              context.watch<Filter>().handleExists)
+          ? SystemMouseCursors.click
+          : SystemMouseCursors.basic,
       onPressed: () {
+        if (!context.read<Filter>().handleSearched ||
+            !context.read<Filter>().handleExists) return;
         SolvedacService.getProblemWithFilter(context.read<Filter>())
             .then((value) {
           context.read<Filter>().suggestion = value;
         });
+
         context.read<Filter>().searched = true;
       },
-      icon: const Icon(Icons.search),
+      icon: Icon(
+        Icons.search,
+        color: (context.watch<Filter>().handleSearched &&
+                context.watch<Filter>().handleExists)
+            ? Colors.black
+            : Colors.grey,
+      ),
     );
   }
 }
