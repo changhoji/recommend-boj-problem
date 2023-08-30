@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -54,8 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              constraints: const BoxConstraints(
-                maxWidth: 600,
+              constraints: BoxConstraints(
+                maxWidth: min(MediaQuery.of(context).size.width, 600),
               ),
               // filter container
               padding: const EdgeInsets.all(20),

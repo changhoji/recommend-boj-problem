@@ -49,7 +49,7 @@ class ProblemInfo extends StatelessWidget {
             }),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(
+          child: Column(
             children: suggestion.tags.map((tag) {
               return Padding(
                   padding: const EdgeInsets.all(8.0),
