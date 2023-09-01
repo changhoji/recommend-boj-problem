@@ -25,15 +25,6 @@ class MyApp extends StatelessWidget {
       ],
       child: const MaterialApp(
         home: HomeScreen(),
-        // home: StreamBuilder(
-        //   stream: FirebaseAuth.instance.authStateChanges(),
-        //   builder: (context, snapshot) {
-        //     if (snapshot.hasData) {
-        //       return const HomeScreen();
-        //     }
-        //     return const GuestScreen();
-        //   },
-        // ),
       ),
     );
   }
