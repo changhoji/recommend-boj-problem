@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:whattosolve/providers/filter.dart';
 import 'package:whattosolve/services/solvedac_service.dart';
@@ -13,7 +14,37 @@ class HandleFilter extends StatefulWidget {
 }
 
 class _HandleFilterState extends State<HandleFilter> {
-  String handle = "";
+  final FocusNode _focusNode = FocusNode();
+  final _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      // update handle value
+      context.read<Filter>().handle = _controller.text;
+      String handle = _controller.text;
+
+      if (!_focusNode.hasFocus) {
+        if (handle.isEmpty) {
+          // when empty, handle is valid
+          context.read<Filter>().handleExists = true;
+          context.read<Filter>().handleSearched = true;
+          return;
+        }
+        // search whether handle is exist
+        context.read<Filter>().handleExists = false;
+        context.read<Filter>().handleSearched = false;
+        SolvedacService.isExistingHandle(handle).then((exist) {
+          context.read<Filter>().handleSearched = true;
+          context.read<Filter>().handleExists = exist;
+        });
+      } else {
+        // for disable search button
+        context.read<Filter>().handleSearched = false;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,53 +57,36 @@ class _HandleFilterState extends State<HandleFilter> {
             color: Colors.grey,
           ),
         ),
-        Focus(
-          onFocusChange: (value) {
-            if (!value && handle.isNotEmpty) {
-              context.read<Filter>().handleSearched = false;
-              SolvedacService.isExistingHandle(handle).then((exist) {
-                context.read<Filter>().handleSearched = true;
-                context.read<Filter>().handleExists = exist;
-              });
-            } else if (value) {
-              context.read<Filter>().handleExists = false;
-            } else if (handle.isEmpty) {
-              context.read<Filter>().handleExists = true;
-            }
-          },
-          child: Stack(
-            alignment: AlignmentDirectional.centerEnd,
-            children: [
-              TextField(
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 2.0,
-                      color: context.watch<Filter>().handleSearched
-                          ? (context.watch<Filter>().handleExists
-                              ? Colors.green
-                              : Colors.red)
-                          : Colors.grey,
-                    ),
+        Stack(
+          alignment: AlignmentDirectional.centerEnd,
+          children: [
+            TextField(
+              focusNode: _focusNode,
+              controller: _controller,
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    width: 2.0,
+                    color: context.watch<Filter>().handleSearched
+                        ? (context.watch<Filter>().handleExists
+                            ? Colors.green
+                            : Colors.red)
+                        : Colors.grey,
                   ),
-                  border: const OutlineInputBorder(),
                 ),
-                onChanged: (value) {
-                  context.read<Filter>().handle = value;
-                  handle = value;
-                },
+                border: const OutlineInputBorder(),
               ),
-              !context.watch<Filter>().handleSearched
-                  ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.arrow_circle_down_sharp,
-                        color: Colors.grey.shade700,
-                      ),
-                    )
-                  : const SizedBox(),
-            ],
-          ),
+            ),
+            !context.watch<Filter>().handleSearched
+                ? Padding(
+                    padding: const EdgeInsets.all(14.0),
+                    child: LoadingAnimationWidget.threeArchedCircle(
+                      color: Colors.grey.shade600,
+                      size: 20,
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ],
         ),
       ],
     );
