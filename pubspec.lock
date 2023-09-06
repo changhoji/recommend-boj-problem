@@ -512,6 +512,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  searchable_listview:
+    dependency: "direct main"
+    description:
+      name: searchable_listview
+      sha256: "477c4208489b8354ceb4ab849a1b22a11dc36fd987b533d61d3ebfd200026b1c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.6.1"
+  searchfield:
+    dependency: "direct main"
+    description:
+      name: searchfield
+      sha256: ea1eccae9f6d07dbbfef0bf341dd93b22df453b939461c5473a0be6186f2d720
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.4"
   shelf:
     dependency: transitive
     description:
