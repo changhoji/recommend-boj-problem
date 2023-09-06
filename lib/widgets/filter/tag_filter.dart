@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whattosolve/models/solvedac_problem.dart';
 import 'package:whattosolve/providers/filter.dart';
+import 'package:whattosolve/widgets/tag_search.dart';
 
-class TagFilter extends StatefulWidget {
+class TagFilter extends StatelessWidget {
   const TagFilter({super.key});
 
-  @override
-  State<TagFilter> createState() => _TagFilterState();
-}
-
-class _TagFilterState extends State<TagFilter> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -29,6 +25,7 @@ class _TagFilterState extends State<TagFilter> {
             context.read<Filter>().removeExceptTag(tag);
           },
         ),
+        const TagSearch(),
       ],
     );
   }

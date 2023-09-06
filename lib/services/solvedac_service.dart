@@ -7,8 +7,6 @@ import 'package:whattosolve/models/solvedac_problem.dart';
 import 'package:whattosolve/providers/filter.dart';
 
 class SolvedacService {
-  static const String baseUrl = "https://solved.ac/api/v3";
-
   static const String hash = "%23";
   static const String or = "%7C";
   static const String and = "%26";
@@ -85,5 +83,20 @@ class SolvedacService {
       return true;
     }
     return false;
+  }
+
+  static Future<List<Tag>> getTags() async {
+    final url = Uri.parse(
+        "https://api-py.vercel.app/https:~~solved.ac~api~v3~tag~list");
+    final tags = <Tag>[];
+
+    final response = await http.get(url);
+    final data = jsonDecode(response.body);
+
+    data['items'].forEach((tag) {
+      tags.add(Tag.fromJson(tag));
+    });
+
+    return tags;
   }
 }
