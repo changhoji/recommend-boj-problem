@@ -31,10 +31,11 @@ class _TagSearchState extends State<TagSearch> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SearchField<Tag>(
-            onSearchTextChanged: (key) {
+            onSearchTextChanged: (searchKey) {
+              // Select tags whose displayName or key contain key
               return snapshot.data!
-                  .where((tag) =>
-                      (tag.displayName.contains(key) || tag.key.contains(key)))
+                  .where((tag) => (tag.displayName.contains(searchKey) ||
+                      tag.key.contains(searchKey)))
                   .toList()
                   .map((tag) => tagItem(context, tag, controller))
                   .toList();
@@ -54,6 +55,9 @@ class _TagSearchState extends State<TagSearch> {
   }
 }
 
+/// Make each row of searched tag
+///
+/// Each row contains displayName, key, add button, and remove button
 SearchFieldListItem<Tag> tagItem(
     BuildContext context, Tag tag, TextEditingController controller) {
   return SearchFieldListItem(
