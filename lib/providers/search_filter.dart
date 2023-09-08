@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whattosolve/models/solvedac_problem.dart';
 
-class Filter with ChangeNotifier {
+class SearchFilter with ChangeNotifier {
   RangeValues _level = const RangeValues(1, 30);
   String _handle = "";
   SolvedacProblem? _suggestion;
@@ -23,6 +23,10 @@ class Filter with ChangeNotifier {
   bool get searching => _searching;
   List<Tag> get containTags => _containTags;
   List<Tag> get exceptTags => _exceptTags;
+
+  Map<String, dynamic> toMap() {
+    return {};
+  }
 
   set level(RangeValues level) {
     _level = level;
