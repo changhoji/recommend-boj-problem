@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:whattosolve/models/solvedac_problem.dart';
 
 class SearchFilter with ChangeNotifier {
-  RangeValues _level = const RangeValues(1, 30);
+  String _filterName = "";
+  int _levelStart = 1;
+  int _levelEnd = 30;
   String _handle = "";
   SolvedacProblem? _suggestion;
   bool _translated = false;
@@ -13,7 +15,9 @@ class SearchFilter with ChangeNotifier {
   final List<Tag> _containTags = <Tag>[];
   final List<Tag> _exceptTags = <Tag>[];
 
-  RangeValues get level => _level;
+  String get filterName => _filterName;
+  int get levelStart => _levelStart;
+  int get levelEnd => _levelEnd;
   String get handle => _handle;
   SolvedacProblem? get suggestion => _suggestion;
   bool get translated => _translated;
@@ -25,11 +29,30 @@ class SearchFilter with ChangeNotifier {
   List<Tag> get exceptTags => _exceptTags;
 
   Map<String, dynamic> toMap() {
-    return {};
+    return {
+      'filterName': _filterName,
+      'levelStart': _levelStart,
+      'levelEnd': _levelEnd,
+      'handle': _handle,
+      'translated': _translated,
+      'containTags': _containTags,
+      'exceptTags': _exceptTags,
+    };
   }
 
-  set level(RangeValues level) {
-    _level = level;
+  set filterName(String filterName) {
+    _filterName = filterName;
+    notifyListeners();
+  }
+
+  set levelStart(int levelStart) {
+    _levelStart = levelStart;
+    _searched = false;
+    notifyListeners();
+  }
+
+  set levelEnd(int levelEnd) {
+    _levelEnd = levelEnd;
     _searched = false;
     notifyListeners();
   }

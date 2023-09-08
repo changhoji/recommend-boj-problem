@@ -33,8 +33,7 @@ class SolvedacService {
   static Future<SolvedacProblem> getProblemWithFilter(
       SearchFilter filter) async {
     if (!filter.searched) {
-      String levelFilter =
-          "*${filter.level.start.round()}..${filter.level.end.round()}";
+      String levelFilter = "*${filter.levelStart}..${filter.levelEnd}";
       String handleFilter =
           filter.handle != "" ? " $and !@${filter.handle}" : "";
 

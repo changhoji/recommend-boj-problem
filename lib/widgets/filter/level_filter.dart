@@ -51,7 +51,9 @@ class _LevelFilterState extends State<LevelFilter> {
                     setState(() {
                       _rangeValues = value;
                     });
-                    context.read<SearchFilter>().level = value;
+                    context.read<SearchFilter>().levelStart =
+                        value.start.round();
+                    context.read<SearchFilter>().levelEnd = value.end.round();
                   },
                 ),
                 Row(

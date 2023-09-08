@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:whattosolve/firebase_options.dart';
 import 'package:whattosolve/providers/search_filter.dart';
@@ -16,6 +17,15 @@ void main() async {
   runApp(const MyApp());
 }
 
+final _router = GoRouter(
+  routes: <RouteBase>[
+    GoRoute(
+      path: '/',
+      builder: (context, state) => const HomeScreen(),
+    ),
+  ],
+);
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -25,8 +35,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => SearchFilter()),
       ],
-      child: const MaterialApp(
-        home: HomeScreen(),
+      child: MaterialApp.router(
+        routerConfig: _router,
       ),
     );
   }

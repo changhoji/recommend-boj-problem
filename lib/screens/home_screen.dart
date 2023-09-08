@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whattosolve/models/solvedac_problem.dart';
 import 'package:whattosolve/providers/search_filter.dart';
+import 'package:whattosolve/services/firebase/firestore_service.dart';
 import 'package:whattosolve/services/solvedac_service.dart';
 import 'package:whattosolve/widgets/filter/handle_filter.dart';
 import 'package:whattosolve/widgets/filter/level_filter.dart';
