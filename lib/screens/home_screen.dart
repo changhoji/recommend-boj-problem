@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whattosolve/models/solvedac_problem.dart';
-import 'package:whattosolve/providers/filter.dart';
+import 'package:whattosolve/providers/search_filter.dart';
 import 'package:whattosolve/services/solvedac_service.dart';
 import 'package:whattosolve/widgets/filter/handle_filter.dart';
 import 'package:whattosolve/widgets/filter/level_filter.dart';
@@ -37,7 +37,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
 
     setState(() {
-      suggestion = SolvedacService.getProblemWithFilter(context.read<Filter>());
+      suggestion =
+          SolvedacService.getProblemWithFilter(context.read<SearchFilter>());
     });
   }
 
@@ -75,9 +76,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       const Text('한국어 문제만 찾기'),
                       Checkbox(
-                        value: context.watch<Filter>().translated,
+                        value: context.watch<SearchFilter>().translated,
                         onChanged: (value) {
-                          context.read<Filter>().reverseTranslated();
+                          context.read<SearchFilter>().reverseTranslated();
                         },
                       ),
                     ],

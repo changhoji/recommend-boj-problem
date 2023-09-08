@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:whattosolve/providers/filter.dart';
+import 'package:whattosolve/providers/search_filter.dart';
 import 'package:whattosolve/services/solvedac_service.dart';
 
 class SearchButton extends StatelessWidget {
@@ -11,33 +11,34 @@ class SearchButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
-      child: context.watch<Filter>().searching
+      child: context.watch<SearchFilter>().searching
           ? LoadingAnimationWidget.threeArchedCircle(
               color: Colors.grey.shade600,
               size: 20,
             )
           : IconButton(
-              mouseCursor: (context.watch<Filter>().handleSearched &&
-                      context.watch<Filter>().handleExists)
+              mouseCursor: (context.watch<SearchFilter>().handleSearched &&
+                      context.watch<SearchFilter>().handleExists)
                   ? SystemMouseCursors.click
                   : SystemMouseCursors.basic,
               onPressed: () {
-                if (!context.read<Filter>().handleSearched ||
-                    !context.read<Filter>().handleExists) return;
+                if (!context.read<SearchFilter>().handleSearched ||
+                    !context.read<SearchFilter>().handleExists) return;
 
-                context.read<Filter>().searching = true;
-                SolvedacService.getProblemWithFilter(context.read<Filter>())
+                context.read<SearchFilter>().searching = true;
+                SolvedacService.getProblemWithFilter(
+                        context.read<SearchFilter>())
                     .then((value) {
-                  context.read<Filter>().suggestion = value;
-                  context.read<Filter>().searching = false;
+                  context.read<SearchFilter>().suggestion = value;
+                  context.read<SearchFilter>().searching = false;
                 });
 
-                context.read<Filter>().searched = true;
+                context.read<SearchFilter>().searched = true;
               },
               icon: Icon(
                 Icons.search,
-                color: (context.watch<Filter>().handleSearched &&
-                        context.watch<Filter>().handleExists)
+                color: (context.watch<SearchFilter>().handleSearched &&
+                        context.watch<SearchFilter>().handleExists)
                     ? Colors.black
                     : Colors.grey,
               ),

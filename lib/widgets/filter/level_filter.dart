@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:whattosolve/providers/filter.dart';
+import 'package:whattosolve/providers/search_filter.dart';
 import 'package:whattosolve/services/solvedac_service.dart';
 
 class LevelFilter extends StatefulWidget {
@@ -51,7 +51,7 @@ class _LevelFilterState extends State<LevelFilter> {
                     setState(() {
                       _rangeValues = value;
                     });
-                    context.read<Filter>().level = value;
+                    context.read<SearchFilter>().level = value;
                   },
                 ),
                 Row(

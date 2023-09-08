@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:whattosolve/models/solvedac_problem.dart';
-import 'package:whattosolve/providers/filter.dart';
+import 'package:whattosolve/providers/search_filter.dart';
 import 'package:whattosolve/services/solvedac_service.dart';
 
 class TagSearch extends StatefulWidget {
@@ -45,7 +45,7 @@ class _TagSearchState extends State<TagSearch> {
                 .map((tag) => tagItem(context, tag, controller))
                 .toList(),
             onSuggestionTap: (tag) {
-              context.read<Filter>().addContainTag(tag.item!);
+              context.read<SearchFilter>().addContainTag(tag.item!);
             },
           );
         }
@@ -87,7 +87,7 @@ SearchFieldListItem<Tag> tagItem(
               icon: const Icon(Icons.add),
               iconSize: 15,
               onPressed: () {
-                context.read<Filter>().addContainTag(tag);
+                context.read<SearchFilter>().addContainTag(tag);
                 controller.clear();
               },
             ),
@@ -98,7 +98,7 @@ SearchFieldListItem<Tag> tagItem(
               icon: const Icon(Icons.remove),
               iconSize: 15,
               onPressed: () {
-                context.read<Filter>().addExceptTag(tag);
+                context.read<SearchFilter>().addExceptTag(tag);
                 controller.clear();
               },
             ),
