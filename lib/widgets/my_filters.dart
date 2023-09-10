@@ -43,29 +43,7 @@ class _MyFiltersState extends State<MyFilters> {
                     children: docs.map((doc) {
                       final data = SearchFilter.fromFirestoreFilter(doc.data(),
                           int.parse(doc.id), context.read<Tags>().tags!);
-                      return Container(
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
-                          color: (context.watch<SearchFilter>().id.toString() ==
-                                  doc.id)
-                              ? Colors.blue.shade100
-                              : Colors.grey.shade200,
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 15.0,
-                        ),
-                        child: InkWell(
-                          child: Text(data.filterName),
-                          onTap: () {
-                            context.read<SearchFilter>().assignNewFilter(data);
-                            context
-                                .read<Controllers>()
-                                .changeHandle(data.handle);
-                          },
-                        ),
-                      );
+                      return FilterPreset(data: data, doc: doc);
                     }).toList(),
                   ),
                 );
@@ -76,6 +54,41 @@ class _MyFiltersState extends State<MyFilters> {
         }
         return const SizedBox.shrink();
       },
+    );
+  }
+}
+
+class FilterPreset extends StatelessWidget {
+  const FilterPreset({
+    super.key,
+    required this.data,
+    required this.doc,
+  });
+
+  final SearchFilter data;
+  final QueryDocumentSnapshot<FirestoreFilter> doc;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        color: (context.watch<SearchFilter>().id.toString() == doc.id)
+            ? Colors.blue.shade100
+            : Colors.grey.shade200,
+      ),
+      padding: const EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: 15.0,
+      ),
+      child: InkWell(
+        child: Text(data.filterName),
+        onTap: () {
+          context.read<SearchFilter>().assignNewFilter(data);
+          context.read<Controllers>().changeHandle(data.handle);
+          context.read<Controllers>().changeFilterName(data.filterName);
+        },
+      ),
     );
   }
 }

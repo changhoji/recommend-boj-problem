@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:whattosolve/models/firestore_filter.dart';
+import 'package:whattosolve/models/solvedac_problem.dart';
 import 'package:whattosolve/providers/search_filter.dart';
 
 class FirestoreService {
@@ -31,5 +33,21 @@ class FirestoreService {
             .set(SearchFilter('$i번 필터').toMap());
       }
     }
+  }
+
+  static Future<SearchFilter> getFirstFilter(String uid, List<Tag> tags) async {
+    final doc = await db
+        .collection("users")
+        .doc(uid)
+        .collection("filters")
+        .doc("1")
+        .withConverter(
+          fromFirestore: FirestoreFilter.fromFirestore,
+          toFirestore: (value, _) => value.toFirestore(),
+        )
+        .get();
+
+    return SearchFilter.fromFirestoreFilter(
+        doc.data()!, int.parse(doc.id), tags);
   }
 }
