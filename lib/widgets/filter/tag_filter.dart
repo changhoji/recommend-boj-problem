@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whattosolve/models/solvedac_problem.dart';
-import 'package:whattosolve/providers/filter.dart';
+import 'package:whattosolve/providers/search_filter.dart';
 import 'package:whattosolve/widgets/tag_search.dart';
 
 class TagFilter extends StatelessWidget {
@@ -13,16 +13,16 @@ class TagFilter extends StatelessWidget {
       children: [
         TagList(
           title: '포함할 태그',
-          tags: context.watch<Filter>().containTags,
+          tags: context.watch<SearchFilter>().containTags,
           onPressed: (Tag tag) {
-            context.read<Filter>().removeContainTag(tag);
+            context.read<SearchFilter>().removeContainTag(tag);
           },
         ),
         TagList(
           title: '제외할 태그',
-          tags: context.watch<Filter>().exceptTags,
+          tags: context.watch<SearchFilter>().exceptTags,
           onPressed: (Tag tag) {
-            context.read<Filter>().removeExceptTag(tag);
+            context.read<SearchFilter>().removeExceptTag(tag);
           },
         ),
         const TagSearch(),

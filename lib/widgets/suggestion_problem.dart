@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:whattosolve/models/solvedac_problem.dart';
-import 'package:whattosolve/providers/filter.dart';
+import 'package:whattosolve/providers/search_filter.dart';
 import 'package:whattosolve/services/solvedac_service.dart';
 
 const tiers = SolvedacService.tiers;
@@ -16,7 +16,7 @@ class SuggestionProblem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(),
-      child: (context.watch<Filter>().suggestion != null)
+      child: (context.watch<SearchFilter>().suggestion != null)
           ? const ProblemInfo()
           : null,
     );
@@ -28,7 +28,7 @@ class ProblemInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SolvedacProblem suggestion = context.watch<Filter>().suggestion!;
+    SolvedacProblem suggestion = context.watch<SearchFilter>().suggestion!;
     return Column(
       children: [
         InkWell(
@@ -83,14 +83,14 @@ class TagSection extends StatelessWidget {
           Text(tag.displayName),
           IconButton(
             onPressed: () {
-              context.read<Filter>().addContainTag(tag);
+              context.read<SearchFilter>().addContainTag(tag);
             },
             iconSize: 20,
             icon: const Icon(Icons.add_circle_outline),
           ),
           IconButton(
             onPressed: () {
-              context.read<Filter>().addExceptTag(tag);
+              context.read<SearchFilter>().addExceptTag(tag);
             },
             iconSize: 20,
             icon: const Icon(Icons.remove_circle_outline),

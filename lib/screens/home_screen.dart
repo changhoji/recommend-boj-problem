@@ -2,14 +2,18 @@ import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:whattosolve/models/solvedac_problem.dart';
-import 'package:whattosolve/providers/filter.dart';
+import 'package:whattosolve/providers/search_filter.dart';
+import 'package:whattosolve/providers/tags.dart';
 import 'package:whattosolve/services/solvedac_service.dart';
 import 'package:whattosolve/widgets/filter/handle_filter.dart';
 import 'package:whattosolve/widgets/filter/level_filter.dart';
 import 'package:whattosolve/widgets/filter/tag_filter.dart';
+import 'package:whattosolve/widgets/filter_save_button.dart';
 import 'package:whattosolve/widgets/google_login.dart';
+import 'package:whattosolve/widgets/my_filters.dart';
 import 'package:whattosolve/widgets/search_button.dart';
 import 'package:whattosolve/widgets/suggestion_problem.dart';
 
@@ -37,59 +41,75 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
 
     setState(() {
-      suggestion = SolvedacService.getProblemWithFilter(context.read<Filter>());
+      suggestion =
+          SolvedacService.getProblemWithFilter(context.read<SearchFilter>());
+    });
+    SolvedacService.getTags().then((value) {
+      context.read<Tags>().tags = value;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home"),
-        actions: const [
-          GoogleLogin(),
-          SizedBox(width: 100),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              constraints: BoxConstraints(
-                maxWidth: min(MediaQuery.of(context).size.width, 600),
-              ),
-              // filter container
-              padding: const EdgeInsets.all(20),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-              child: Column(
+    return (context.watch<Tags>().tags != null)
+        ? Scaffold(
+            appBar: AppBar(
+              title: const Text("Home"),
+              actions: const [
+                GoogleLogin(),
+                SizedBox(width: 100),
+              ],
+            ),
+            body: SingleChildScrollView(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const HandleFilter(),
-                  const LevelFilter(),
-                  const SizedBox(height: 20),
-                  const TagFilter(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('한국어 문제만 찾기'),
-                      Checkbox(
-                        value: context.watch<Filter>().translated,
-                        onChanged: (value) {
-                          context.read<Filter>().reverseTranslated();
-                        },
-                      ),
-                    ],
+                  Container(
+                    constraints: BoxConstraints(
+                      maxWidth: min(MediaQuery.of(context).size.width, 600),
+                    ),
+                    // filter container
+                    padding: const EdgeInsets.all(20),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: Column(
+                      children: [
+                        const MyFilters(),
+                        const HandleFilter(),
+                        const LevelFilter(),
+                        const SizedBox(height: 20),
+                        const TagFilter(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('한국어 문제만 찾기'),
+                            Checkbox(
+                              value: context.watch<SearchFilter>().translated,
+                              onChanged: (value) {
+                                context
+                                    .read<SearchFilter>()
+                                    .reverseTranslated();
+                              },
+                            ),
+                          ],
+                        ),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SearchButton(),
+                            FilterSaveButton(),
+                          ],
+                        ),
+                        const SuggestionProblem(),
+                      ],
+                    ),
                   ),
-                  const SearchButton(),
-                  const SuggestionProblem(),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          )
+        : LoadingAnimationWidget.threeArchedCircle(
+            color: Colors.grey, size: 50);
   }
 }

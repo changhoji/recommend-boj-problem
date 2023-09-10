@@ -49,8 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '48759075209',
     projectId: 'what-to-solve',
     authDomain: 'what-to-solve.firebaseapp.com',
-    databaseURL:
-        'https://what-to-solve-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL: 'https://what-to-solve-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'what-to-solve.appspot.com',
   );
 
@@ -59,8 +58,7 @@ class DefaultFirebaseOptions {
     appId: '1:48759075209:android:beab181a152ddea327b158',
     messagingSenderId: '48759075209',
     projectId: 'what-to-solve',
-    databaseURL:
-        'https://what-to-solve-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL: 'https://what-to-solve-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'what-to-solve.appspot.com',
   );
 
@@ -69,11 +67,9 @@ class DefaultFirebaseOptions {
     appId: '1:48759075209:ios:81ce012b5471d36927b158',
     messagingSenderId: '48759075209',
     projectId: 'what-to-solve',
-    databaseURL:
-        'https://what-to-solve-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL: 'https://what-to-solve-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'what-to-solve.appspot.com',
-    iosClientId:
-        '48759075209-8jrh49927pgokhki19jto05uqptq9ckd.apps.googleusercontent.com',
+    iosClientId: '48759075209-8jrh49927pgokhki19jto05uqptq9ckd.apps.googleusercontent.com',
     iosBundleId: 'com.example.recommend',
   );
 
@@ -82,11 +78,9 @@ class DefaultFirebaseOptions {
     appId: '1:48759075209:ios:7e3cf48e105b62a027b158',
     messagingSenderId: '48759075209',
     projectId: 'what-to-solve',
-    databaseURL:
-        'https://what-to-solve-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL: 'https://what-to-solve-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'what-to-solve.appspot.com',
-    iosClientId:
-        '48759075209-iap2dc3op1evr35f85o4310n95q5gvbq.apps.googleusercontent.com',
+    iosClientId: '48759075209-iap2dc3op1evr35f85o4310n95q5gvbq.apps.googleusercontent.com',
     iosBundleId: 'com.example.recommend.RunnerTests',
   );
 }

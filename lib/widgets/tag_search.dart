@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:whattosolve/models/solvedac_problem.dart';
-import 'package:whattosolve/providers/filter.dart';
-import 'package:whattosolve/services/solvedac_service.dart';
+import 'package:whattosolve/providers/search_filter.dart';
+import 'package:whattosolve/providers/tags.dart';
 
 class TagSearch extends StatefulWidget {
   const TagSearch({super.key});
@@ -13,43 +13,32 @@ class TagSearch extends StatefulWidget {
 }
 
 class _TagSearchState extends State<TagSearch> {
-  late Future<List<Tag>> tagList;
   final controller = TextEditingController();
   String text = "";
   List<Tag> searchedTags = <Tag>[];
 
   @override
-  void initState() {
-    super.initState();
-    tagList = SolvedacService.getTags();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: tagList,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return SearchField<Tag>(
-            onSearchTextChanged: (searchKey) {
-              // Select tags whose displayName or key contain key
-              return snapshot.data!
-                  .where((tag) => (tag.displayName.contains(searchKey) ||
-                      tag.key.contains(searchKey)))
-                  .toList()
-                  .map((tag) => tagItem(context, tag, controller))
-                  .toList();
-            },
-            controller: controller,
-            suggestions: snapshot.data!
-                .map((tag) => tagItem(context, tag, controller))
-                .toList(),
-            onSuggestionTap: (tag) {
-              context.read<Filter>().addContainTag(tag.item!);
-            },
-          );
-        }
-        return const SizedBox.shrink();
+    return SearchField<Tag>(
+      onSearchTextChanged: (searchKey) {
+        // Select tags whose displayName or key contain key
+        return context
+            .watch<Tags>()
+            .tags!
+            .where((tag) => (tag.displayName.contains(searchKey) ||
+                tag.key.contains(searchKey)))
+            .toList()
+            .map((tag) => tagItem(context, tag, controller))
+            .toList();
+      },
+      controller: controller,
+      suggestions: context
+          .watch<Tags>()
+          .tags!
+          .map((tag) => tagItem(context, tag, controller))
+          .toList(),
+      onSuggestionTap: (tag) {
+        context.read<SearchFilter>().addContainTag(tag.item!);
       },
     );
   }
@@ -87,7 +76,7 @@ SearchFieldListItem<Tag> tagItem(
               icon: const Icon(Icons.add),
               iconSize: 15,
               onPressed: () {
-                context.read<Filter>().addContainTag(tag);
+                context.read<SearchFilter>().addContainTag(tag);
                 controller.clear();
               },
             ),
@@ -98,7 +87,7 @@ SearchFieldListItem<Tag> tagItem(
               icon: const Icon(Icons.remove),
               iconSize: 15,
               onPressed: () {
-                context.read<Filter>().addExceptTag(tag);
+                context.read<SearchFilter>().addExceptTag(tag);
                 controller.clear();
               },
             ),

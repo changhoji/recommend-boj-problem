@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:whattosolve/models/solvedac_problem.dart';
-import 'package:whattosolve/providers/filter.dart';
+import 'package:whattosolve/providers/search_filter.dart';
 
 class SolvedacService {
   static const String hash = "%23";
@@ -30,10 +30,10 @@ class SolvedacService {
     );
   }
 
-  static Future<SolvedacProblem> getProblemWithFilter(Filter filter) async {
+  static Future<SolvedacProblem> getProblemWithFilter(
+      SearchFilter filter) async {
     if (!filter.searched) {
-      String levelFilter =
-          "*${filter.level.start.round()}..${filter.level.end.round()}";
+      String levelFilter = "*${filter.levelStart}..${filter.levelEnd}";
       String handleFilter =
           filter.handle != "" ? " $and !@${filter.handle}" : "";
 

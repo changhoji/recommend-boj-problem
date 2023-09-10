@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:whattosolve/providers/filter.dart';
+import 'package:whattosolve/providers/controllers.dart';
+import 'package:whattosolve/providers/search_filter.dart';
 import 'package:whattosolve/services/solvedac_service.dart';
 
 class HandleFilter extends StatefulWidget {
@@ -15,33 +16,33 @@ class HandleFilter extends StatefulWidget {
 
 class _HandleFilterState extends State<HandleFilter> {
   final FocusNode _focusNode = FocusNode();
-  final _controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _focusNode.addListener(() {
       // update handle value
-      context.read<Filter>().handle = _controller.text;
-      String handle = _controller.text;
+      context.read<SearchFilter>().handle =
+          context.read<Controllers>().handleController.text;
+      String handle = context.read<Controllers>().handleController.text;
 
       if (!_focusNode.hasFocus) {
         if (handle.isEmpty) {
           // when empty, handle is valid
-          context.read<Filter>().handleExists = true;
-          context.read<Filter>().handleSearched = true;
+          context.read<SearchFilter>().handleExists = true;
+          context.read<SearchFilter>().handleSearched = true;
           return;
         }
         // search whether handle is exist
-        context.read<Filter>().handleExists = false;
-        context.read<Filter>().handleSearched = false;
+        context.read<SearchFilter>().handleExists = false;
+        context.read<SearchFilter>().handleSearched = false;
         SolvedacService.isExistingHandle(handle).then((exist) {
-          context.read<Filter>().handleSearched = true;
-          context.read<Filter>().handleExists = exist;
+          context.read<SearchFilter>().handleSearched = true;
+          context.read<SearchFilter>().handleExists = exist;
         });
       } else {
         // for disable search button
-        context.read<Filter>().handleSearched = false;
+        context.read<SearchFilter>().handleSearched = false;
       }
     });
   }
@@ -62,13 +63,13 @@ class _HandleFilterState extends State<HandleFilter> {
           children: [
             TextField(
               focusNode: _focusNode,
-              controller: _controller,
+              controller: context.watch<Controllers>().handleController,
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     width: 2.0,
-                    color: context.watch<Filter>().handleSearched
-                        ? (context.watch<Filter>().handleExists
+                    color: context.watch<SearchFilter>().handleSearched
+                        ? (context.watch<SearchFilter>().handleExists
                             ? Colors.green
                             : Colors.red)
                         : Colors.grey,
@@ -77,7 +78,7 @@ class _HandleFilterState extends State<HandleFilter> {
                 border: const OutlineInputBorder(),
               ),
             ),
-            !context.watch<Filter>().handleSearched
+            !context.watch<SearchFilter>().handleSearched
                 ? Padding(
                     padding: const EdgeInsets.all(14.0),
                     child: LoadingAnimationWidget.threeArchedCircle(
