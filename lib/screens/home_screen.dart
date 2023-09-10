@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:whattosolve/models/solvedac_problem.dart';
+import 'package:whattosolve/providers/controllers.dart';
 import 'package:whattosolve/providers/search_filter.dart';
 import 'package:whattosolve/providers/tags.dart';
+import 'package:whattosolve/services/firebase/firestore_service.dart';
 import 'package:whattosolve/services/solvedac_service.dart';
 import 'package:whattosolve/widgets/filter/handle_filter.dart';
 import 'package:whattosolve/widgets/filter/level_filter.dart';
 import 'package:whattosolve/widgets/filter/tag_filter.dart';
+import 'package:whattosolve/widgets/filter_name_field.dart';
 import 'package:whattosolve/widgets/filter_save_button.dart';
 import 'package:whattosolve/widgets/google_login.dart';
 import 'package:whattosolve/widgets/my_filters.dart';
@@ -40,12 +43,15 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    setState(() {
-      suggestion =
-          SolvedacService.getProblemWithFilter(context.read<SearchFilter>());
-    });
-    SolvedacService.getTags().then((value) {
-      context.read<Tags>().tags = value;
+    SolvedacService.getTags().then((tags) {
+      context.read<Tags>().tags = tags;
+      if (user != null) {
+        FirestoreService.getFirstFilter(user!.uid, tags).then((filter) {
+          context.read<SearchFilter>().assignNewFilter(filter);
+          context.read<Controllers>().changeHandle(filter.handle);
+          context.read<Controllers>().changeFilterName(filter.filterName);
+        });
+      }
     });
   }
 
@@ -76,6 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       children: [
                         const MyFilters(),
+                        const FilterNameField(),
                         const HandleFilter(),
                         const LevelFilter(),
                         const SizedBox(height: 20),
