@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:whattosolve/models/firestore_filter.dart';
 import 'package:whattosolve/models/solvedac_problem.dart';
 
 class SearchFilter with ChangeNotifier {
+  late int _id = 1;
   String _filterName = "";
   int _levelStart = 1;
   int _levelEnd = 30;
@@ -12,9 +14,47 @@ class SearchFilter with ChangeNotifier {
   bool _handleSearched = true;
   bool _handleExists = true;
   bool _searching = false;
-  final List<Tag> _containTags = <Tag>[];
-  final List<Tag> _exceptTags = <Tag>[];
+  List<Tag> _containTags = <Tag>[];
+  List<Tag> _exceptTags = <Tag>[];
 
+  SearchFilter(String filterName) {
+    _filterName = filterName;
+  }
+
+  void assignNewFilter(SearchFilter another) {
+    _id = another.id;
+    _filterName = another.filterName;
+    _levelStart = another.levelStart;
+    _levelEnd = another.levelEnd;
+    _handle = another.handle;
+    _suggestion = null;
+    _translated = another.translated;
+    _searched = false;
+    _handleSearched = true;
+    _handleExists = true;
+    _searching = false;
+    _containTags = another.containTags;
+    _exceptTags = another.exceptTags;
+    notifyListeners();
+  }
+
+  SearchFilter.fromFirestoreFilter(
+      FirestoreFilter data, int id, List<Tag> tags) {
+    _id = id;
+    _filterName = data.filterName;
+    _levelStart = data.levelStart;
+    _levelEnd = data.levelEnd;
+    _handle = data.handle;
+    _translated = data.translated;
+    _containTags = data.containTags
+        .map((key) => tags.firstWhere((tag) => tag.key == key))
+        .toList();
+    _exceptTags = data.exceptTags
+        .map((key) => tags.firstWhere((tag) => tag.key == key))
+        .toList();
+  }
+
+  int get id => _id;
   String get filterName => _filterName;
   int get levelStart => _levelStart;
   int get levelEnd => _levelEnd;
@@ -35,8 +75,8 @@ class SearchFilter with ChangeNotifier {
       'levelEnd': _levelEnd,
       'handle': _handle,
       'translated': _translated,
-      'containTags': _containTags,
-      'exceptTags': _exceptTags,
+      'containTags': _containTags.map((tag) => tag.key).toList(),
+      'exceptTags': _exceptTags.map((tag) => tag.key).toList(),
     };
   }
 

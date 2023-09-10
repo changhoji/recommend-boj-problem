@@ -11,8 +11,6 @@ class LevelFilter extends StatefulWidget {
 }
 
 class _LevelFilterState extends State<LevelFilter> {
-  var _rangeValues = const RangeValues(1, 30);
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,18 +37,21 @@ class _LevelFilterState extends State<LevelFilter> {
               children: [
                 RangeSlider(
                   labels: RangeLabels(
-                    SolvedacService.levelToText(_rangeValues.start.round())
+                    SolvedacService.levelToText(
+                            context.watch<SearchFilter>().levelStart.round())
                         .data!,
-                    SolvedacService.levelToText(_rangeValues.end.round()).data!,
+                    SolvedacService.levelToText(
+                            context.watch<SearchFilter>().levelEnd.round())
+                        .data!,
                   ),
                   min: 1,
                   max: 30,
                   divisions: 29,
-                  values: _rangeValues,
+                  values: RangeValues(
+                    context.watch<SearchFilter>().levelStart.toDouble(),
+                    context.watch<SearchFilter>().levelEnd.toDouble(),
+                  ),
                   onChanged: (value) {
-                    setState(() {
-                      _rangeValues = value;
-                    });
                     context.read<SearchFilter>().levelStart =
                         value.start.round();
                     context.read<SearchFilter>().levelEnd = value.end.round();
@@ -59,12 +60,14 @@ class _LevelFilterState extends State<LevelFilter> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SolvedacService.levelToText(_rangeValues.start.round()),
+                    SolvedacService.levelToText(
+                        context.watch<SearchFilter>().levelStart.round()),
                     const Padding(
                       padding: EdgeInsets.all(10),
                       child: Text('~'),
                     ),
-                    SolvedacService.levelToText(_rangeValues.end.round()),
+                    SolvedacService.levelToText(
+                        context.watch<SearchFilter>().levelEnd.round()),
                   ],
                 ),
                 const SizedBox(height: 10),

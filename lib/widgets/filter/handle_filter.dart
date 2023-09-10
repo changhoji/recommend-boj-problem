@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:whattosolve/providers/controllers.dart';
 import 'package:whattosolve/providers/search_filter.dart';
 import 'package:whattosolve/services/solvedac_service.dart';
 
@@ -15,15 +16,15 @@ class HandleFilter extends StatefulWidget {
 
 class _HandleFilterState extends State<HandleFilter> {
   final FocusNode _focusNode = FocusNode();
-  final _controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _focusNode.addListener(() {
       // update handle value
-      context.read<SearchFilter>().handle = _controller.text;
-      String handle = _controller.text;
+      context.read<SearchFilter>().handle =
+          context.read<Controllers>().handleController.text;
+      String handle = context.read<Controllers>().handleController.text;
 
       if (!_focusNode.hasFocus) {
         if (handle.isEmpty) {
@@ -62,7 +63,7 @@ class _HandleFilterState extends State<HandleFilter> {
           children: [
             TextField(
               focusNode: _focusNode,
-              controller: _controller,
+              controller: context.watch<Controllers>().handleController,
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
