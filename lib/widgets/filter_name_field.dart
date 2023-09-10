@@ -16,6 +16,7 @@ class FilterNameField extends StatelessWidget {
     });
 
     return TextField(
+      maxLength: 10,
       controller: context.watch<Controllers>().filterNameController,
       focusNode: focusNode,
     );
