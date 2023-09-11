@@ -14,20 +14,24 @@ class FilterSaveButton extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final user = snapshot.data!;
-          return IconButton(
-            onPressed: () {
-              FirestoreService.saveFilter(
-                  user.uid, context.read<SearchFilter>());
-            },
-            icon: const Icon(Icons.save),
-          );
+          if (context.watch<SearchFilter>().handleSearched &&
+              context.watch<SearchFilter>().handleExists) {
+            return IconButton(
+              onPressed: () {
+                FirestoreService.saveFilter(
+                    user.uid, context.read<SearchFilter>());
+              },
+              icon: const Icon(Icons.save),
+            );
+          }
         }
         return IconButton(
           onPressed: () {
             showDialog(
               context: context,
-              builder: (context) =>
-                  const AlertDialog(title: Text('먼저 로그인 해주세요')),
+              builder: (context) => (snapshot.data == null)
+                  ? const AlertDialog(title: Text('먼저 로그인 해주세요'))
+                  : const AlertDialog(title: Text('유효하지 않은 핸들이에요')),
             );
           },
           icon: const Icon(Icons.save),
