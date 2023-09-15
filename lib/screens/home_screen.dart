@@ -16,7 +16,6 @@ import 'package:whattosolve/widgets/filter/level_filter.dart';
 import 'package:whattosolve/widgets/filter/tag_filter.dart';
 import 'package:whattosolve/widgets/filter_name_field.dart';
 import 'package:whattosolve/widgets/filter_save_button.dart';
-import 'package:whattosolve/widgets/google_login.dart';
 import 'package:whattosolve/widgets/my_filters.dart';
 import 'package:whattosolve/widgets/search_button.dart';
 import 'package:whattosolve/widgets/suggestion_problem.dart';

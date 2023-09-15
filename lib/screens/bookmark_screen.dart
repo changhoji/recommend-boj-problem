@@ -6,8 +6,13 @@ class BookmarkScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: UserAppBar(),
+    return Scaffold(
+      appBar: const UserAppBar(),
+      body: SingleChildScrollView(
+        child: ListView(
+          children: const [],
+        ),
+      ),
     );
   }
 }
