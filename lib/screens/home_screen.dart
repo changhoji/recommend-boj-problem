@@ -10,12 +10,12 @@ import 'package:whattosolve/providers/search_filter.dart';
 import 'package:whattosolve/providers/tags.dart';
 import 'package:whattosolve/services/firebase/firestore_service.dart';
 import 'package:whattosolve/services/solvedac_service.dart';
+import 'package:whattosolve/widgets/appbars/user_appbar.dart';
 import 'package:whattosolve/widgets/filter/handle_filter.dart';
 import 'package:whattosolve/widgets/filter/level_filter.dart';
 import 'package:whattosolve/widgets/filter/tag_filter.dart';
 import 'package:whattosolve/widgets/filter_name_field.dart';
 import 'package:whattosolve/widgets/filter_save_button.dart';
-import 'package:whattosolve/widgets/google_login.dart';
 import 'package:whattosolve/widgets/my_filters.dart';
 import 'package:whattosolve/widgets/search_button.dart';
 import 'package:whattosolve/widgets/suggestion_problem.dart';
@@ -59,13 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return (context.watch<Tags>().tags != null)
         ? Scaffold(
-            appBar: AppBar(
-              title: const Text("Home"),
-              actions: const [
-                GoogleLogin(),
-                SizedBox(width: 100),
-              ],
-            ),
+            appBar: const UserAppBar(),
             body: SingleChildScrollView(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

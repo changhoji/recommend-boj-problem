@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:whattosolve/models/firestore_filter.dart';
+import 'package:whattosolve/models/firestore_problem.dart';
 import 'package:whattosolve/models/solvedac_problem.dart';
 import 'package:whattosolve/providers/search_filter.dart';
 
@@ -49,5 +50,30 @@ class FirestoreService {
 
     return SearchFilter.fromFirestoreFilter(
         doc.data()!, int.parse(doc.id), tags);
+  }
+
+  static void addFavorite(String uid, SolvedacProblem problem) {
+    db
+        .collection("users")
+        .doc(uid)
+        .collection("bookmarks")
+        .doc(problem.problemId.toString())
+        .set(problem.toMap());
+  }
+
+  static Stream<QuerySnapshot<FirestoreProblem>> bookmarkSnapshot(String uid) {
+    return db
+        .collection("users")
+        .doc(uid)
+        .collection("bookmarks")
+        .withConverter(
+          fromFirestore: FirestoreProblem.fromFirestore,
+          toFirestore: (value, options) => value.toFirestore(),
+        )
+        .snapshots();
+  }
+
+  static void removeBookmark(String uid, String pid) {
+    db.collection("users").doc(uid).collection("bookmarks").doc(pid).delete();
   }
 }

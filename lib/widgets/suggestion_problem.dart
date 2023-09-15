@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:whattosolve/models/solvedac_problem.dart';
 import 'package:whattosolve/providers/search_filter.dart';
 import 'package:whattosolve/services/solvedac_service.dart';
+import 'package:whattosolve/widgets/favorite_button.dart';
 
 const tiers = SolvedacService.tiers;
 
@@ -32,21 +33,23 @@ class ProblemInfo extends StatelessWidget {
     return Column(
       children: [
         InkWell(
-            child: Column(
-              children: [
-                Text(
-                  "난이도: ${tiers[5 - (suggestion.level - 1) ~/ 5].data}${5 - (suggestion.level - 1) % 5}",
-                  style: tiers[5 - (suggestion.level - 1) ~/ 5].style!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-                Text('${suggestion.problemId}번: ${suggestion.titleKo}'),
-              ],
-            ),
-            onTap: () {
-              launchUrlString(
-                  "https://acmicpc.net/problem/${suggestion.problemId}");
-            }),
+          child: Column(
+            children: [
+              const FavoriteButton(),
+              Text(
+                "난이도: ${tiers[5 - (suggestion.level - 1) ~/ 5].data}${5 - (suggestion.level - 1) % 5}",
+                style: tiers[5 - (suggestion.level - 1) ~/ 5].style!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              Text('${suggestion.problemId}번: ${suggestion.titleKo}'),
+            ],
+          ),
+          onTap: () {
+            launchUrlString(
+                "https://acmicpc.net/problem/${suggestion.problemId}");
+          },
+        ),
         ExpansionTile(
           title: const Text('태그'),
           children: [

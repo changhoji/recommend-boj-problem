@@ -6,6 +6,7 @@ import 'package:whattosolve/firebase_options.dart';
 import 'package:whattosolve/providers/controllers.dart';
 import 'package:whattosolve/providers/search_filter.dart';
 import 'package:whattosolve/providers/tags.dart';
+import 'package:whattosolve/screens/bookmark_screen.dart';
 import 'package:whattosolve/screens/home_screen.dart';
 
 void main() async {
@@ -22,6 +23,12 @@ final _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (context, state) => const HomeScreen(),
+      routes: <RouteBase>[
+        GoRoute(
+          path: 'bookmark',
+          builder: (context, state) => const BookmarkScreen(),
+        )
+      ],
     ),
   ],
 );

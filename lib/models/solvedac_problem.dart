@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class SolvedacProblem {
   late int problemId;
   late String titleKo;
@@ -12,6 +14,15 @@ class SolvedacProblem {
     json['tags'].forEach((tag) {
       tags.add(Tag.fromJson(tag));
     });
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'titleKo': titleKo,
+      'level': level,
+      'tags': tags.map((tag) => tag.displayName).toList(),
+      'timestamp': Timestamp.now(),
+    };
   }
 }
 
