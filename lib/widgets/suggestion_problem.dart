@@ -1,10 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:whattosolve/models/solvedac_problem.dart';
 import 'package:whattosolve/providers/search_filter.dart';
 import 'package:whattosolve/services/solvedac_service.dart';
+import 'package:whattosolve/widgets/favorite_button.dart';
 
 const tiers = SolvedacService.tiers;
 
@@ -35,6 +35,7 @@ class ProblemInfo extends StatelessWidget {
         InkWell(
           child: Column(
             children: [
+              const FavoriteButton(),
               Text(
                 "난이도: ${tiers[5 - (suggestion.level - 1) ~/ 5].data}${5 - (suggestion.level - 1) % 5}",
                 style: tiers[5 - (suggestion.level - 1) ~/ 5].style!.copyWith(
@@ -48,19 +49,6 @@ class ProblemInfo extends StatelessWidget {
             launchUrlString(
                 "https://acmicpc.net/problem/${suggestion.problemId}");
           },
-        ),
-        IconButton(
-          onPressed: () {
-            if (FirebaseAuth.instance.currentUser == null) {
-              showDialog(
-                context: context,
-                builder: (context) => const AlertDialog(
-                  title: Text('먼저 로그인 해주세요!'),
-                ),
-              );
-            }
-          },
-          icon: const Icon(Icons.favorite_border),
         ),
         ExpansionTile(
           title: const Text('태그'),
