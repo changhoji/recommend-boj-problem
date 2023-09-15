@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -32,21 +34,35 @@ class ProblemInfo extends StatelessWidget {
     return Column(
       children: [
         InkWell(
-            child: Column(
-              children: [
-                Text(
-                  "난이도: ${tiers[5 - (suggestion.level - 1) ~/ 5].data}${5 - (suggestion.level - 1) % 5}",
-                  style: tiers[5 - (suggestion.level - 1) ~/ 5].style!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+          child: Column(
+            children: [
+              Text(
+                "난이도: ${tiers[5 - (suggestion.level - 1) ~/ 5].data}${5 - (suggestion.level - 1) % 5}",
+                style: tiers[5 - (suggestion.level - 1) ~/ 5].style!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              Text('${suggestion.problemId}번: ${suggestion.titleKo}'),
+            ],
+          ),
+          onTap: () {
+            launchUrlString(
+                "https://acmicpc.net/problem/${suggestion.problemId}");
+          },
+        ),
+        IconButton(
+          onPressed: () {
+            if (FirebaseAuth.instance.currentUser == null) {
+              showDialog(
+                context: context,
+                builder: (context) => const AlertDialog(
+                  title: Text('먼저 로그인 해주세요!'),
                 ),
-                Text('${suggestion.problemId}번: ${suggestion.titleKo}'),
-              ],
-            ),
-            onTap: () {
-              launchUrlString(
-                  "https://acmicpc.net/problem/${suggestion.problemId}");
-            }),
+              );
+            }
+          },
+          icon: const Icon(Icons.favorite_border),
+        ),
         ExpansionTile(
           title: const Text('태그'),
           children: [
