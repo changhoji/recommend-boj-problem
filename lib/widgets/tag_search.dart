@@ -21,9 +21,9 @@ class _TagSearchState extends State<TagSearch> {
   Widget build(BuildContext context) {
     return SearchField<Tag>(
       onSearchTextChanged: (searchKey) {
-        // Select tags whose displayName or key contain key
+        // Select tags whose displayName or key contains key
         return context
-            .watch<Tags>()
+            .read<Tags>()
             .tags!
             .where((tag) => (tag.displayName.contains(searchKey) ||
                 tag.key.contains(searchKey)))
@@ -33,12 +33,12 @@ class _TagSearchState extends State<TagSearch> {
       },
       controller: controller,
       suggestions: context
-          .watch<Tags>()
+          .read<Tags>()
           .tags!
           .map((tag) => tagItem(context, tag, controller))
           .toList(),
       onSuggestionTap: (tag) {
-        context.read<SearchFilter>().addContainTag(tag.item!);
+        context.watch<SearchFilter>().addContainTag(tag.item!);
       },
     );
   }
