@@ -65,6 +65,7 @@ class BookmarkItem extends StatelessWidget {
                   SolvedacService.levelToText(doc.data().level),
                   Text('${doc.id}번: ${doc.data().titleKo}'),
                   SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
                     child: Row(
                       children: doc
                           .data()
